@@ -69,6 +69,15 @@ class Base(Controller):
                     result = get_check('http', check)(target)
                     add_row(rows, target, 'http', check, result)
 
+            # telnet
+            if host.get('telnet', None) is not None:
+                telnet_config = host['telnet']
+                checks = telnet_config.get('checks')
+
+                for check in checks:
+                    result = get_check('telnet', check)(target)
+                    add_row(rows, target, 'telnet', check, result)
+
             # SSH
             if host.get('ssh', None) is not None:
                 ssh_config = host['ssh']
