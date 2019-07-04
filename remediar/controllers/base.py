@@ -1,4 +1,4 @@
-"""Base part of the Remediar CLI."""
+"""Base part of the remediar CLI."""
 from cement import Controller, ex
 import os
 import yaml
@@ -56,6 +56,7 @@ class Base(Controller):
         rows = []
 
         for host in data['hosts']:
+            #self.app.print((host['ip_address']))
             target = host['ip_address']
 
             # HTTP
@@ -78,5 +79,16 @@ class Base(Controller):
                 for check in checks:
                     result = get_check('ssh', check)(target, port)
                     add_row(rows, target, 'ssh', check, result)
+
+            #    TCP
+            if host.get('tcp', None) is not None:
+                tcp_config = host['tcp']
+                ports = tcp_config.get('ports')
+                checks = tcp_config.get('checks')
+
+                for check in checks:
+                    for port in ports:
+                        result = get_check('tcp', check)(target, port)
+                        add_row(rows, target, 'tcp', check, result)
 
         self.app.render(rows, headers=HEADERS)
