@@ -26,4 +26,4 @@ Details:
     get_version_banner(),
 )
 
-HEADERS = ['target', 'group', 'check', 'result', 'output']
+HEADERS = ["target", "group", "check", "result", "output"]
