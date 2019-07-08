@@ -71,7 +71,7 @@ class Base(Controller):
 
                 for check in checks:
                     self.app.print(
-                        "Running {} of {} on {}".format(check, group, target)
+                        "Running '{}' of {} on {} ...".format(check, group.upper(), target)
                     )
                     result = get_check(group, check)(target)
                     add_row(rows, target, group, check, result)
