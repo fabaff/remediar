@@ -25,10 +25,12 @@ class CheckHttpIsServerPresent(Check):
     @property
     def result(self) -> bool:
         """Return the state of the check."""
-        if self._output is not False and self._output is not None:
+        if isinstance(self._output, str):
             return True
-        else:
+        elif self._output is False:
             return False
+        else:
+            return None
 
     @property
     def output(self) -> str:
