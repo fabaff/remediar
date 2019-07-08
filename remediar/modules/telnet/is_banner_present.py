@@ -33,8 +33,11 @@ class CheckTelnetIsBannerPresent(Check):
     def run_check(self):
         """Run the check."""
         import telnetlib
-        tn = telnetlib.Telnet(self._server, timeout=5)
-        banner_start = tn.read_until(b"\r\n")
-        banner_end = tn.read_until(b"\r\n")
 
-        self._output = banner_end.decode('ascii').strip()
+        try:
+            tn = telnetlib.Telnet(self._server, timeout=5)
+            banner_start = tn.read_until(b"\r\n")
+            banner_end = tn.read_until(b"\r\n")
+            self._output = banner_end.decode('ascii').strip()
+        except OSError:
+            self._output = None
