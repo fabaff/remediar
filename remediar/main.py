@@ -49,7 +49,7 @@ class RemediarTest(TestApp, Remediar):
 
 
 def main():
-    """."""
+    """Run Remediar."""
     with Remediar() as app:
         try:
             app.run()
