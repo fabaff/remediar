@@ -6,7 +6,7 @@ from ..ssh import SshClient
 class CheckSshIsBannerPresent(Check):
     """Representation of a HTTP banner check."""
 
-    def __init__(self, server, port):
+    def __init__(self, server, port=22):
         """Initialize the check."""
         self._server = server
         self._port = port

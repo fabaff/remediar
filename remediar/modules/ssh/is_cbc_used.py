@@ -6,7 +6,7 @@ from ..ssh import SshClient
 class CheckSshIsCbcUsed(Check):
     """Representation of a HTTP banner check."""
 
-    def __init__(self, server, port):
+    def __init__(self, server, port=22):
         """Initialize the check."""
         self._server = server
         self._port = port
@@ -32,6 +32,10 @@ class CheckSshIsCbcUsed(Check):
     def run_check(self):
         """Run the check."""
         ssh_client = SshClient(self._server, self._port)
+
+        if ssh_client.remote_cipher is None:
+            self._output = None
+            return
 
         if "-cbc" in ssh_client.remote_cipher:
             self._output = "CBC is used"

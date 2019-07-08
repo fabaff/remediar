@@ -5,7 +5,7 @@ import paramiko
 class SshClient:
     """Wrapper for the SSH connection."""
 
-    def __init__(self, server, port):
+    def __init__(self, server, port=22):
         """Initialize the SSH client."""
         self._server = server
         self._port = port
@@ -32,9 +32,14 @@ class SshClient:
         except (
             paramiko.ssh_exception.SSHException,
             paramiko.ssh_exception.NoValidConnectionsError,
-            AttributeError,
         ):
+            pass
+
+        try:
             self.remote_version = client._transport.remote_version
             self.remote_cipher = client._transport.remote_cipher
             self.remote_mac = client._transport.remote_mac
+        except AttributeError:
+            pass
+
         client.close()
