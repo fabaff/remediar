@@ -22,7 +22,7 @@ class CheckHttpIsSubjugationPresent(Check):
         return self._name
 
     @property
-    def result(self) -> str:
+    def result(self) -> bool:
         """Return the state of the check."""
         return True if self._output is not False else False
 
