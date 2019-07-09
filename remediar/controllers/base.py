@@ -67,13 +67,17 @@ class Base(Controller):
 
             for group in groups:
                 group_config = host[group]
+                ports = group_config.get("ports")
+                port = group_config.get("port")
                 checks = group_config.get("checks")
 
                 for check in checks:
                     self.app.print(
-                        "Running '{}' of {} on {} ...".format(check, group.upper(), target)
+                        "Running '{}' of {} on {} ...".format(
+                            check, group.upper(), target
+                        )
                     )
-                    result = get_check(group, check)(target)
+                    result = get_check(group, check)(target, port=port, ports=ports)
                     add_row(rows, target, group, check, result)
 
         self.app.render(rows, headers=HEADERS)

@@ -7,10 +7,11 @@ from remediar.helper import Check
 class CheckTcpIsPortOpen(Check):
     """Representation of a check for open TCP ports."""
 
-    def __init__(self, server, port):
+    def __init__(self, server, **kwargs):
         """Initialize the check."""
         self._server = server
-        self._port = port
+        if kwargs:
+            self._port = kwargs['port']
         self._name = ""
         self._output = None
         self.run_check()
@@ -35,7 +36,7 @@ class CheckTcpIsPortOpen(Check):
         )
 
     def run_check(self):
-        """."""
+        """Check if a TCP port is open."""
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.settimeout(5)

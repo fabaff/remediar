@@ -10,9 +10,11 @@ urllib3.disable_warnings()
 class CheckHttpIsPoweredPresent(Check):
     """Representation of a HTTP banner check."""
 
-    def __init__(self, server):
+    def __init__(self, server, **kwargs):
         """Initialize the check."""
         self._server = server
+        if kwargs:
+            self._port = kwargs['port']
         self._name = ""
         self._output = None
         self.run_check()

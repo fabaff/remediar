@@ -8,7 +8,7 @@ from remediar.helper import Check
 class CheckTelnetIsBannerPresent(Check):
     """Representation of a telnet banner check."""
 
-    def __init__(self, server):
+    def __init__(self, server, **kwargs):
         """Initialize the check."""
         self._server = server
         self._name = ""
