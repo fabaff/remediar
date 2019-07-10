@@ -1,11 +1,11 @@
-"""Support for checking TCP ports."""
+"""Support for checking TCP port."""
 import socket
 
 from remediar.helper import Check
 
 
 class CheckTcpIsPortOpen(Check):
-    """Representation of a check for open TCP ports."""
+    """Representation of a check for an open TCP port."""
 
     def __init__(self, server, **kwargs):
         """Initialize the check."""
