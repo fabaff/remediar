@@ -40,7 +40,7 @@ class CheckSshIsCbcUsed(Check):
         ssh_client = SshClient(self._server, self._port)
 
         if ssh_client.remote_cipher is None:
-            self._output = None
+            self._output = False
             return
 
         if "-cbc" in ssh_client.remote_cipher:
