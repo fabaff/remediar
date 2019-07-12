@@ -1,4 +1,4 @@
-"""Base part of the remediar CLI."""
+"""Base part of the Remediar CLI."""
 import datetime
 import os
 
@@ -72,11 +72,11 @@ class Base(Controller):
                 checks = group_config.get("checks")
 
                 for check in checks:
-                    self.app.print(
-                        "Running '{}' of {} on {} ...".format(
-                            check, group.upper(), target
-                        )
-                    )
+                    # self.app.print(
+                    #     "Running '{}' of {} on {} ...".format(
+                    #         check, group, target
+                    #     )
+                    # )
                     result = get_check(group, check)(target, port=port, ports=ports)
                     add_row(rows, target, group, check, result)
 
