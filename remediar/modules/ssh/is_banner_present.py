@@ -4,13 +4,13 @@ from ..ssh import SshClient
 
 
 class CheckSshIsBannerPresent(Check):
-    """Representation of a HTTP banner check."""
+    """Representation of a SSH banner check."""
 
     def __init__(self, server, **kwargs):
         """Initialize the check."""
         self._server = server
         if kwargs:
-            self._port = kwargs['port']
+            self._port = kwargs['port'] or 22
         self._name = ""
         self._output = None
         self.run_check()
