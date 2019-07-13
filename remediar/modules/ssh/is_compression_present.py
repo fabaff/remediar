@@ -1,10 +1,13 @@
-"""Support for getting details about the used ciphers of a SSH server."""
+"""Support for getting details about the compression of a SSH server."""
 from remediar.helper import Check
-from ..ssh import SshRawClient
+from ..ssh import SshClient, SshRawClient
+
+import sys
+import socket
 
 
-class CheckSshIsCbcUsed(Check):
-    """Representation of a SSH ciphers check."""
+class CheckSshIsCompressionPresent(Check):
+    """Representation of a check for server-side SSH compression."""
 
     def __init__(self, server, **kwargs):
         """Initialize the check."""
@@ -23,12 +26,7 @@ class CheckSshIsCbcUsed(Check):
     @property
     def result(self) -> str:
         """Return the state of the check."""
-        if isinstance(self._output, str):
-            return True
-        elif self._output is False:
-            return False
-        else:
-            return None
+        return self._output
 
     @property
     def output(self) -> str:
@@ -40,8 +38,8 @@ class CheckSshIsCbcUsed(Check):
         ssh_client = SshRawClient(self._server, self._port)
         ssh_client.get_data()
 
-        if ssh_client.weak_ciphers is None:
+        if ssh_client.compression is None:
             self._output = False
             return
 
-        self._output = ", ".join(ssh_client.weak_ciphers)
+        self._output = ssh_client.compression
