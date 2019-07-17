@@ -75,13 +75,16 @@ class SshRawClient:
             return False
         except socket.error as e:
             if e.errno == 61:
-                print("Connection failed. ", e.strerror)
+                print("Connection failed", e.strerror)
             else:
-                print("Failed to connect server")
+                print("Failed to connect server:", self._server)
 
     def get_data(self):
         """Get the data from the SSH server."""
-        self._sock.recv(50).decode("utf-8").split("\n")[0]
+        try:
+            self._sock.recv(50).decode("utf-8").split("\n")[0]
+        except AttributeError:
+            return
         self._sock.send(b"SSH-2.0-remediar\r\n")
         self._data = self._sock.recv(2000)
         self.weak_ciphers = self.parse_elements(
