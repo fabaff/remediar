@@ -23,12 +23,7 @@ class CheckSshIsHmacUsed(Check):
     @property
     def result(self) -> str:
         """Return the state of the check."""
-        if self._output:
-            return True
-        elif self._output is False or not self._output:
-            return False
-        else:
-            return None
+        return self._output
 
     @property
     def output(self) -> str:
@@ -39,6 +34,10 @@ class CheckSshIsHmacUsed(Check):
         """Run the check."""
         ssh_client = SshRawClient(self._server, self._port)
         ssh_client.get_data()
+
+        if ssh_client._sock is None:
+            self._output = None
+            return
 
         if ssh_client.weak_macs is None:
             self._output = False

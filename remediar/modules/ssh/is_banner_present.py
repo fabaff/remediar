@@ -39,6 +39,10 @@ class CheckSshIsBannerPresent(Check):
         """Run the check."""
         ssh_client = SshClient(self._server, self._port)
 
+        if not ssh_client.remote_cipher:
+            self._output = None
+            return
+
         if ssh_client.remote_version:
             self._output = ssh_client.remote_version
         else:

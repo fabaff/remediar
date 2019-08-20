@@ -36,7 +36,7 @@ class SshClient:
                 look_for_keys=False,
                 timeout=10,
             )
-        except (paramiko.ssh_exception.NoValidConnectionsError,):
+        except (paramiko.ssh_exception.NoValidConnectionsError, OSError):
             pass
         except paramiko.ssh_exception.AuthenticationException:
             self.login = False
@@ -75,9 +75,9 @@ class SshRawClient:
             return False
         except socket.error as e:
             if e.errno == 61:
-                print("Connection failed", e.strerror)
+                return None
             else:
-                print("Failed to connect server:", self._server)
+                return None
 
     def get_data(self):
         """Get the data from the SSH server."""

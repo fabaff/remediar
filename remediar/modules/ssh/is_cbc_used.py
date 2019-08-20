@@ -40,6 +40,10 @@ class CheckSshIsCbcUsed(Check):
         ssh_client = SshRawClient(self._server, self._port)
         ssh_client.get_data()
 
+        if ssh_client._sock is None:
+            self._output = None
+            return
+
         if ssh_client.weak_ciphers is None:
             self._output = False
             return
