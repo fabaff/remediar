@@ -48,5 +48,5 @@ class CheckTcpIsTlsUsed(Check):
                 with context.wrap_socket(sock, server_hostname=self._server) as ssock:
                     self._output = ssock.version()
 
-        except socket.timeout:
+        except (socket.timeout, OSError):
             self._output = False
