@@ -44,6 +44,6 @@ class CheckFtpIsAnonymousAllowed(Check):
             ftp.login()
             self._output = "Allowed"
         except error_perm:
-            self._output = "Not allowed"
+            self._output = False
         except OSError:
             self._output = None
