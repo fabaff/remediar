@@ -47,16 +47,17 @@ class Base(Controller):
             tasks = desc.read()
 
         data = yaml.safe_load(tasks)
-
+        timestamp = datetime.datetime.now().isoformat()
         self.app.print(
             "{} - {} ({})".format(
                 data.get("name"),
                 data.get("description"),
-                datetime.datetime.now().isoformat(),
+                timestamp,
             )
         )
 
         rows = []
+        data_db = {"name": data.get("name"), "description": data.get("description"), "timestamp": timestamp, "run": []}
 
         for host in data["hosts"]:
             target = host["ip_address"]
@@ -79,5 +80,7 @@ class Base(Controller):
                     # )
                     result = get_check(group, check)(target, port=port, ports=ports)
                     add_row(rows, target, group, check, result)
+                    data_db['run'].append({"target": target, "group": group, "check": check})
 
+        self.app.db.insert(data_db)
         self.app.render(rows, headers=HEADERS)
