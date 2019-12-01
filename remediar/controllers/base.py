@@ -80,7 +80,7 @@ class Base(Controller):
                     # )
                     result = get_check(group, check)(target, port=port, ports=ports)
                     add_row(rows, target, group, check, result)
-                    data_db['run'].append({"target": target, "group": group, "check": check})
+                    data_db['run'].append({"target": target, "group": group, "check": check, "output": result.output})
 
         self.app.db.insert(data_db)
         self.app.render(rows, headers=HEADERS)
