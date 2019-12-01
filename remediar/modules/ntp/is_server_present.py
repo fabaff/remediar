@@ -1,4 +1,8 @@
 """Support for getting the time from a NTP server."""
+from time import ctime
+
+import ntplib
+
 from remediar.helper import Check
 
 
@@ -29,9 +33,6 @@ class CheckNtpIsServerPresent(Check):
 
     def run_check(self):
         """Run the check."""
-        import ntplib
-        from time import ctime
-
         ntp_client = ntplib.NTPClient()
         try:
             response = ntp_client.request(self._server, version=4)
