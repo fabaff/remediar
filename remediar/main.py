@@ -4,10 +4,11 @@ from cement.core.exc import CaughtSignal
 
 from .controllers.base import Base
 from .core.exc import RemediarError
+from remediar.helper.database import extend_tinydb
 
 # Configuration defaults
-# CONFIG = init_defaults('remediar')
-# CONFIG['remediar']['foo'] = 'bar'
+CONFIG = init_defaults('remediar')
+CONFIG['remediar']['db_file'] = '~/.remediar/storage.json'
 
 
 class Remediar(App):
@@ -17,7 +18,7 @@ class Remediar(App):
         label = "remediar"
 
         # Configuration defaults
-        # config_defaults = CONFIG
+        config_defaults = CONFIG
 
         # Call sys.exit() on close
         exit_on_close = True
@@ -29,7 +30,7 @@ class Remediar(App):
         config_handler = "yaml"
 
         # Configuration file suffix
-        config_file_suffix = ".yml"
+        config_file_suffix = ".yaml"
 
         # Set the log handler
         log_handler = "colorlog"
@@ -39,6 +40,11 @@ class Remediar(App):
 
         # Register handlers
         handlers = [Base]
+
+        # Register hooks
+        hooks = [
+            ('post_setup', extend_tinydb),
+        ]
 
 
 class RemediarTest(TestApp, Remediar):
